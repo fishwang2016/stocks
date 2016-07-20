@@ -21,7 +21,8 @@ def test_run():
    # print df1
     
     #Read SPY data into temporary dataframe
-    dfSPY = pd.read_csv('data/spy.csv',index_col='Date', parse_dates = True)
+    dfSPY = pd.read_csv('data/spy.csv',index_col='Date', parse_dates = True,
+                        usecols = ['Adj Close','Date'])
     #print dfSPY
     df1 = df1.join(dfSPY)
     print df1
