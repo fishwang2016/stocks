@@ -33,15 +33,21 @@ def get_data(symbols, dates):
     
 def test_run():
     
-     symbols=['AAPL','GOOG']
+     symbols=['AAPL','GOOG','IBM']
      
      start_date = '2015-01-01'
      end_date ='2015-02-10'
      dates = pd.date_range(start_date,end_date)
      
      df = get_data(symbols,dates)
+     # Slice by row range (dates) using DataFrame.ix[] selecgtor
      print df
-     df.plot()
+     print "-----------------------"
+     dd = df.ix['2015-01-01':'2015-01-31']
+     print dd
+     print "ko"
+     
+  
     
 if __name__ =='__main__':
     
