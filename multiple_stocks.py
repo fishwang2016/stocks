@@ -39,7 +39,7 @@ def test_run():
     
     for stock in stocks:
         df = pd.read_csv('data/%s.csv' % stock, index_col="Date",usecols =['Date','Adj Close'],
-                         na_values ='nan')
+                         na_values =['nan'])
         df = df.rename(columns={"Adj Close":stock})
         df1 = df1.join(df,how='left')
 
