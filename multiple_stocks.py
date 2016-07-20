@@ -8,7 +8,6 @@ Created on Wed Jul 20 18:52:55 2016
 
 
 """build a dataframe"""
-stocks = ['GOOG','JD','IBM','SPY','AAPL']
 import pandas as pd
 
 def test_run():
@@ -21,10 +20,29 @@ def test_run():
    # print df1
     
     #Read SPY data into temporary dataframe
-    dfSPY = pd.read_csv('data/spy.csv',index_col='Date', parse_dates = True,
+    dfSPY = pd.read_csv('data/SPY.csv',index_col='Date', parse_dates = True,
                         usecols = ['Adj Close','Date'])
     #print dfSPY
-    df1 = df1.join(dfSPY)
+                        
+    dfSPY =dfSPY.rename(columns ={'Adj Close':'SPY'})
+                        
+    df1 = df1.join(dfSPY,how ='inner')
+    """
+    choose proper parameters on how can drop NaN
+    http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.join.html    
+    """
+    # drop NaN rows
+    #df1=df1.dropna()
+    
+    
+    stocks = ['GOOG','IBM','AAPL']
+    
+    for stock in stocks:
+        df = pd.read_csv('data/%s.csv' % stock, index_col="Date",usecols =['Date','Adj Close'],
+                         na_values ='nan')
+        df = df.rename(columns={"Adj Close":stock})
+        df1 = df1.join(df,how='left')
+
     print df1
     
 if __name__ =='__main__':
