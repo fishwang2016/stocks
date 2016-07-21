@@ -65,18 +65,28 @@ def get_bollinger_bands(rm,rstd):
     upper_band = rm + 2 * rstd
     lower_band = rm - 2 * rstd
     return upper_band, lower_band
+def get_daily_return(df):
+    
+    daily_returns = df.copy()
+    
+ # here comes .values
+    
+    daily_returns[1:] = (daily_returns[1:]/daily_returns[:-1].values)-1
+    daily_returns.ix[0] = 0
+  
+    return daily_returns
     
 def test_run():
     
      symbols=['AAPL','GOOG','IBM']
      
-     start_date = '2014-01-01'
+     start_date = '2014-02-01'
      end_date ='2015-02-10'
      dates = pd.date_range(start_date,end_date)
      
      df = get_data(symbols,dates)
      # plot SPY data , retain matplotlib axis object
-     ax = df['SPY'].plot(title = "SPY Rolling Mean",label ='SPY',figsize=(15,15))
+     ax = df['SPY'].plot(title = "SPY Rolling Mean",label ='SPY',figsize=(15,5))
      
      rm_SPY = pd.rolling_mean(df['SPY'],window =20)
      
@@ -95,6 +105,17 @@ def test_run():
      lower_band.plot(label="lower_band",ax=ax)
      
      ax.legend(loc='upper left')
+     
+     plt.show()
+     
+     daily = get_daily_return(df['SPY'])
+     
+
+     
+     
+     daily.plot(title ="SPY Daily Returns",figsize=(15,5))
+     
+     plt.show()
 
 #==============================================================================
 #      # Slice by row range (dates) using DataFrame.ix[] selecgtor
