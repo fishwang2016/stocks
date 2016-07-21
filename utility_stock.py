@@ -12,6 +12,10 @@ import pandas as pd
 
 import matplotlib.pyplot as plt
 
+def rolling_bands():
+    
+    pass
+
 
 def plot_selected(df,columns,start_date,end_date):
     #print df.ix[start_date:end_date,columns]
@@ -22,7 +26,7 @@ def plot_selected(df,columns,start_date,end_date):
 
 def plot_data(df, title="Stock Prices",figsize=(15,5)):
     
-    ax = df.plot(title=title, fontsize=2,figsize=figsize)
+    ax = df.plot(title=title,fontsize=10,figsize=figsize)
     ax.set_xlabel("Date")
     ax.set_ylabel("Price")
     plt.show()
@@ -46,7 +50,21 @@ def get_data(symbols, dates):
         #print df1
         df = df.join(df1,how='inner')
         
-    return df
+    return df.sort_index()
+    
+def get_rolling_mean(df, window=20):
+    
+    return pd.rolling_mean(df,window=window)
+    
+def get_rolling_std(df,window=20):
+    
+    return pd.rolling_std(df,window=window)
+    
+def get_bollinger_bands(rm,rstd):
+    
+    upper_band = rm + 2 * rstd
+    lower_band = rm - 2 * rstd
+    return upper_band, lower_band
     
 def test_run():
     
@@ -57,40 +75,76 @@ def test_run():
      dates = pd.date_range(start_date,end_date)
      
      df = get_data(symbols,dates)
-     # Slice by row range (dates) using DataFrame.ix[] selecgtor
-    # print df
-     print "-----------------------"
-     #dd = df['2015-01-01':'2015-01-31']
+     # plot SPY data , retain matplotlib axis object
+     ax = df['SPY'].plot(title = "SPY Rolling Mean",label ='SPY',figsize=(15,15))
      
-     df = df/df.ix[-1]
+     rm_SPY = pd.rolling_mean(df['SPY'],window =20)
      
-     #plot_data(df)
-     plot_selected(df,symbols,'2015-01-01','2015-02-05')
-    
+     # Add rolling mean to same plot
+     
+     rm_SPY.plot(label="Rolling mean", ax=ax)
+     ax.set_xlabel("Date")
+     ax.set_ylabel("Price")
+     
+     rm = get_rolling_mean(df['SPY'])
+     rstd = get_rolling_std(df['SPY'])
+     
+     upper_band , lower_band = get_bollinger_bands(rm, rstd)
+     
+     upper_band.plot(label="upper_band",ax=ax)
+     lower_band.plot(label="lower_band",ax=ax)
+     
+     ax.legend(loc='upper left')
+
+#==============================================================================
+#      # Slice by row range (dates) using DataFrame.ix[] selecgtor
+#     # print df
+#      print "-----------------------"
+#      #dd = df['2015-01-01':'2015-01-31']
+#      
+#      df = df.sort_index()
+#      print "Mean"
+#      print df.mean()
+#      print "Median"
+#      print df.median()
+#      print "Std"
+#      print df.std()
+#      
+#      #df = df/df.ix[0]
+#      
+#      
+#      
+#      #plot_data(df)
+#      plot_data(df/df.ix[0])
+#     
+#==============================================================================
   
     
 if __name__ =='__main__':
     
+     test_run()
+    
     #test_run()
-     symbols=['AAPL','GOOG','IBM']
-     
-     start_date = '2014-01-01'
-     end_date ='2015-02-10'
-     dates = pd.date_range(start_date,end_date)
-     
-     df = get_data(symbols,dates)
-     # Slice by row range (dates) using DataFrame.ix[] selecgtor
-    # print df
-     print "-----------------------"
-     #dd = df['2015-01-01':'2015-01-31']
-     # sorting the data to ensure correct order while printing out
-     # and by sorting out will prevent empty data from slicing... 
-     df=df.sort_index()
-     
-     df = df/df.ix[0]
-     
+#==============================================================================
+#      symbols=['AAPL','GOOG','IBM']
+#      
+#      start_date = '2010-01-01'
+#      end_date ='2015-02-10'
+#      dates = pd.date_range(start_date,end_date)
+#      
+#      df = get_data(symbols,dates)
+#      # Slice by row range (dates) using DataFrame.ix[] selecgtor
+#     # print df
+#      print "-----------------------"
+#      #dd = df['2015-01-01':'2015-01-31']
+#      # sorting the data to ensure correct order while printing out
+#      # and by sorting out will prevent empty data from slicing... 
+#      df=df.sort_index()
+#      
+#      df = df/df.ix[0]
+#      
+#==============================================================================
      #plot_data(df)
-     plot_selected(df,symbols,'2015-01-01','2015-02-05')
     
     
      
