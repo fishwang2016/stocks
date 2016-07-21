@@ -84,6 +84,7 @@ if __name__ =='__main__':
      print "-----------------------"
      #dd = df['2015-01-01':'2015-01-31']
      # sorting the data to ensure correct order while printing out
+     # and by sorting out will prevent empty data from slicing...
      df=df.sort_index()
      
      df = df/df.ix[0]
