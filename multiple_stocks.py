@@ -4,15 +4,24 @@ Created on Wed Jul 20 18:52:55 2016
 
 @author: Fish
 """
-
-
-
 """build a dataframe"""
+
 import pandas as pd
+
+import matplotlib.pyplot as plt
+
+
+
+def plot_data(df, title="Stock Prices",figsize=(15,5)):
+    
+    ax = df.plot(title=title, fontsize=2,figsize=figsize)
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Price")
+    plt.show()
 
 def test_run():
     start_date ='2010-01-22'
-    end_date = '2010-01-26'
+    end_date = '2015-01-26'
     dates = pd.date_range(start_date,end_date)
     #print dates[0]
     # Crate an empty dataframe
@@ -43,7 +52,18 @@ def test_run():
         df = df.rename(columns={"Adj Close":stock})
         df1 = df1.join(df,how='left')
 
-    print df1
+    #print df1
+  
+    d= df1/df1.ix[-1]
+    plot_data(d)
+    
+    """    
+    Note: As per pandas syntax, the second option should actually read:
+        df = df / df.ix[0]
+        Or, to be more explicit:
+        df = df / df.ix[0, :]
+    """
+
     
 if __name__ =='__main__':
     test_run()
