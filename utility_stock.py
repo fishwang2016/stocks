@@ -65,7 +65,7 @@ def get_bollinger_bands(rm,rstd):
     upper_band = rm + 2 * rstd
     lower_band = rm - 2 * rstd
     return upper_band, lower_band
-def get_daily_return(df):
+def get_daily_returns(df):
     
     daily_returns = df.copy()
     
@@ -101,6 +101,9 @@ def test_run():
      
      upper_band , lower_band = get_bollinger_bands(rm, rstd)
      
+     #demonistrate fillna
+     upper_band.fillna(method='bfill',inplace = True)
+     
      upper_band.plot(label="upper_band",ax=ax)
      lower_band.plot(label="lower_band",ax=ax)
      
@@ -108,7 +111,7 @@ def test_run():
      
      plt.show()
      
-     daily = get_daily_return(df['SPY'])
+     daily = get_daily_returns(df['SPY'])
      
 
      
