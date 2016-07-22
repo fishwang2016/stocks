@@ -118,14 +118,11 @@ def test_run():
      
      plt.show()
      
-<<<<<<< HEAD
-     daily = get_daily_return(df[['SPY','AAPL','GOOG']])
-=======
-     daily = get_daily_returns(df['SPY'])
->>>>>>> refs/remotes/origin/master
-     
 
-     
+     #daily = get_daily_return(df[['SPY','AAPL','GOOG']])
+
+     daily = get_daily_returns(df['SPY'])
+
      
      daily.plot(title ="SPY Daily Returns",figsize=(15,5))
      
