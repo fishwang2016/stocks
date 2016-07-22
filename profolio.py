@@ -46,12 +46,12 @@ def fit_line(data,error_func):
     
     """
     
-    l= np.float32([0,25]) # slope =0 , intercept = mean(y values)
+    l= np.float32([0,np.mean(data[:,1])]) # slope =0 , intercept = mean(y values)
     
     #Plot initial guess (optional)
     x_ends = np.float32([-5,-5])
     
-   # plt.plot(x_ends, x_ends * l[0]+l[1],'m--',label ='Initial guess')
+    plt.plot(x_ends, x_ends * l[0]+l[1],'m--',label ='Initial guess')
     
     
     
@@ -98,7 +98,7 @@ def test_run():
     
     l_fit = fit_line(data, error)
     print "Fitted line: C0 = {}, C1 = {}".format(l_fit[0],l_fit[1])
-    plt.plot(data[:,0],l_fit[0] * data[:,0] + l_fit[1],'r--',linewidth =2.0,label ="Optimized")
+    plt.plot(data[:,0],l_fit[0] * data[:,0] + l_fit[1],'r--',linewidth =2.0,label ="Fitted Line")
     
     plt.legend(loc ='upper left')
 #==============================================================================
