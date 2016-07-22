@@ -30,23 +30,7 @@ def f(X):
 
     return Y
     
-def error(line,data):
-    
-    """
-    Compute error between given line model and observed data
-    
-    Parameters
-    --------------------
-    line: tuple/list/array (C0, C1) where C0 is slope and C1 is Y-intercept
-    data: 2D array where each row is a point(x,y)
-    
-    Returns error as a single real value.
-    
-    """
-    
-    err = np.sum(data[:,1]-line[0]*data[:,0]-line[1])**2
-    
-    return err
+
     
     
 def test_run():

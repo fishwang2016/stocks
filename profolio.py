@@ -46,12 +46,13 @@ def fit_line(data,error_func):
     
     """
     
-    l= np.float32([0,1]) # slope =0 , intercept = mean(y values)
+    l= np.float32([0,25]) # slope =0 , intercept = mean(y values)
     
     #Plot initial guess (optional)
     x_ends = np.float32([-5,-5])
     
-    plt.plot(x_ends, x_ends * l[0]+l[1])
+   # plt.plot(x_ends, x_ends * l[0]+l[1],'m--',label ='Initial guess')
+    
     
     
     #Call optimizer to minimize error function
