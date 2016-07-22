@@ -71,8 +71,15 @@ def get_daily_returns(df):
     
  # here comes .values
     
-    daily_returns[1:] = (daily_returns[1:]/daily_returns[:-1].values)-1
+   # daily_returns[1:] = (daily_returns[1:]/daily_returns[:-1].values)-1
+   
+    
+    #another way to do it is:
+    daily_returns =(df/df.shift(1)) -1 # much easier with pandas
+    
     daily_returns.ix[0] = 0
+    
+    
   
     return daily_returns
     
@@ -80,7 +87,7 @@ def test_run():
     
      symbols=['AAPL','GOOG','IBM']
      
-     start_date = '2014-02-01'
+     start_date = '2015-02-01'
      end_date ='2015-02-10'
      dates = pd.date_range(start_date,end_date)
      
@@ -111,7 +118,11 @@ def test_run():
      
      plt.show()
      
+<<<<<<< HEAD
+     daily = get_daily_return(df[['SPY','AAPL','GOOG']])
+=======
      daily = get_daily_returns(df['SPY'])
+>>>>>>> refs/remotes/origin/master
      
 
      
