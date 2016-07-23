@@ -24,9 +24,10 @@ How to evaluate portfolio performance:
     THETAp: standard deviation of returns of the portfolio 
 
 """
-from utility_stock import get_data,plot_data
+from utility_stock import get_data,plot_data,get_daily_returns
 import pandas as pd
 import matplotlib.pyplot as plt
+
 def normalized_prices(data):
     """
     Normalized all the stock prices
@@ -37,10 +38,21 @@ def normalized_prices(data):
 
     """
     return data/data.iloc[0]
-def portfolio_returns():
 
 
-    return 
+def portfolio_returns(data,weight):
+    # daily returns for each stock
+    daily = get_daily_returns(data)
+    
+    print "data"
+    print daily
+    print "_________"
+    p_daily = daily * weight
+       
+    p_daily["sum"] = p_daily.sum(axis = 1)    
+    
+    print p_daily
+    return p_daily 
 
 
 def test_run():
@@ -53,6 +65,12 @@ def test_run():
     #print data
     data = normalized_prices(data)
     #print data.iloc[0]
+    #daily = get_daily_returns(data)
+    print "symbols ",symbols
+    print data[symbols]
+    print "end symbols"
+    p_daily = portfolio_returns(data[["IBM","GOOG","AAPL"]],weight)
+    #print p_daily
     data.plot(title = 'Normalized Price',figsize=(15,5))
     plt.legend(loc ='upper left')
     plt.show()
