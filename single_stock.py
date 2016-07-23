@@ -45,7 +45,6 @@ def plot(df,window =20):
    plt.legend(loc="upper left")
    plt.show()
 
-
    return 
 
 def test_run():
@@ -53,21 +52,14 @@ def test_run():
    Get data and analysis a single stock.
    """
    symbol =["AAPL"]
-   start_date ='2015-01-01'
+   start_date ='2014-01-01'
    end_date ='2016-12-31'
    dates = pd.date_range(start_date,end_date)
    data = get_data(symbol,dates)
 
    plot(data["AAPL"],window=50)
    
-   # ax = data["AAPL"].plot(title = "Stock Prices",figsize=(15,8),label="Stock Prices")
-   # r_mean = get_rolling_mean(data["AAPL"],window=200)
-   # r_mean.plot(ax = ax,label ="mean")
-   # upper,lower = bollinger_bands(data["AAPL"],window=200)
-   # upper.plot(ax=ax, label ="upper")
-   # lower.plot(ax=ax, label ="lower")
-   # plt.legend(loc="upper left")
-   # plt.show()
+
 
 if __name__ == "__main__":
 
