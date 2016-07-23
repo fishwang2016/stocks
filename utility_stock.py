@@ -9,7 +9,7 @@ Created on Wed Jul 20 20:34:18 2016
 
 import os
 import pandas as pd
-
+import copy
 import matplotlib.pyplot as plt
 
 def rolling_bands():
@@ -41,7 +41,6 @@ def get_data(symbols, dates):
     df = pd.DataFrame(index=dates)
     if 'SPY' not in symbols:
         symbols.insert(0,'SPY')
-        
     for symbol in symbols:
         
         df1 = pd.read_csv(symbol_to_path(symbol),usecols=['Date','Adj Close'],
