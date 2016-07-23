@@ -15,6 +15,13 @@ How to evaluate portfolio performance:
     2) Risk
 
     Target: high returns with low risk
+    Sharp Ratio :
+
+    S = (Rp - Rr )/THETAp
+    S: Sharp ratio
+    rp: return of the portfolio
+    rf: risk-free rate
+    THETAp: standard deviation of returns of the portfolio 
 
 """
 from utility_stock import get_data,plot_data
@@ -30,6 +37,11 @@ def normalized_prices(data):
 
     """
     return data/data.iloc[0]
+def portfolio_returns():
+
+
+    return 
+
 
 def test_run():
     weight =[0.2,0.5,0.3]
