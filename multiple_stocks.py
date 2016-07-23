@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 
 def plot_data(df, title="Stock Prices",figsize=(15,5)):
     
-    ax = df.plot(title=title, fontsize=2,figsize=figsize)
+    ax = df.plot(title=title, fontsize=10,figsize=figsize)
     ax.set_xlabel("Date")
     ax.set_ylabel("Price")
     plt.show()

@@ -1,11 +1,20 @@
 """
-Find minimum values of  functions
- Build parameterized models based on data
- Refine allocations to stocks in profolio
+ 1.Find minimum values of  functions
+ 2.Build parameterized models based on data
+ 3.Refine allocations to stocks in profolio
 
 """
 
 """Minimize on objective function,using Scipy"""
+
+"""
+How to use an optimizer ? Three steps.
+
+1) Provide a funcion to minimize 
+2) Provide an initial guess
+3) Call the optimizer
+"""
+
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -20,6 +29,10 @@ def f(X):
     print "X={}, Y={}.".format(X,Y) # for tracing
 
     return Y
+    
+
+    
+    
 def test_run():
     Xguess=2.0
     min_result=spo.minimize(f,Xguess,method='SLSQP',options={'disp':True})
