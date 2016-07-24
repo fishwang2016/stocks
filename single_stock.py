@@ -34,18 +34,34 @@ def bollinger_bands(df,window =20):
 
 
 def plot(df,window =20):
-
-
-   ax = df.plot(title = "Stock Prices",figsize=(15,8),label="Stock Prices")
-   r_mean = get_rolling_mean(df,window=window)
+   plt.figure(211)
+   ax = df['Adj Close'].plot(title = "Stock Prices",figsize=(8,6),label="Stock Prices")
+   r_mean = get_rolling_mean(df['Adj Close'],window=window)
    r_mean.plot(ax = ax,label ="mean")
-   upper,lower = bollinger_bands(df,window=window)
+   upper,lower = bollinger_bands(df['Adj Close'],window=window)
    upper.plot(ax=ax, label ="upper")
    lower.plot(ax=ax, label ="lower")
    plt.legend(loc="upper left")
+   
+   plt.figure(212)
+   
+   (df['Volume']/100000000).plot(kind ='bar',figsize=(8,2),use_index= False)
    plt.show()
 
    return 
+   
+def read_stock(symbol,dates):
+    
+    df1 = pd.DataFrame(index = dates)
+    
+    df = pd.read_csv('data/%s.csv' % symbol[0],usecols=['Date','Adj Close','Volume'],
+                     
+                     index_col ='Date',na_values='NaN')
+                     
+    df1 = df1.join(df,how ='inner')
+    
+    
+    return df1.sort_index() 
 
 def test_run():
    """
@@ -55,9 +71,9 @@ def test_run():
    start_date ='2014-01-01'
    end_date ='2016-12-31'
    dates = pd.date_range(start_date,end_date)
-   data = get_data(symbol,dates)
+   data = read_stock(symbol,dates)
 
-   plot(data["AAPL"],window=50)
+   plot(data,window=50)
    
 
 
