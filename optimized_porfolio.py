@@ -17,7 +17,7 @@ How to evaluate portfolio performance:
     Target: high returns with low risk
     Sharp Ratio :
 
-    S = (Rp - Rr )/THETAp
+    S = E(Rp - Rr )/THETAp
     S: Sharp ratio
     rp: return of the portfolio
     rf: risk-free rate
@@ -29,58 +29,68 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import math 
 
-def sharp_ratio(returns,rr =0.03):
-    rr = math.pow(rr,1.0/252.0)
-    rp = returns.sum()
+def sharp_ratio(returns,rf =0.03):
+    """
+    SR can vary widely depending on how
+    frequently you sample
+    - SR is an annual measurement
+    - SRannualized  = K * SR
+    - K = sqrt(#samples per year)
+    - daily K = sqrt(252)
+    - weekly K = sqrt(52)
+    - monthly k = sqrt(12)
+
+    """
+    daily_rf = math.pow(rf+1,1.0/252.0)-1
     std = returns.std()
+    mean = (returns-daily_rf).mean()
+    SR = mean/std
     
-    return (rp -rr)/std
+    return SR 
 
-def normalized_prices(data):
-    """
-    Normalized all the stock prices
+def daily_portfolio_value(data , weight,start_value):
+    #normalized price
+    norm = data/data.iloc[0]
+    #alloced
+    alloced = norm * weight
+    #sum
+    port = alloced.sum(axis=1)
+    port_value = port * start_value
+    return port_value
 
-    Example: 
-
-    The first data , and each date is related to the first data[0]
-
-    """
-    return data/data.iloc[0]
-
-
-def portfolio_returns(data,weight):
-    # daily returns for each stock
-    daily = get_daily_returns(data)
+def statistics(port_val):
+    cum_ret = port_val[-1]/port_val[0] -1
+    print "Accumalitive Returns: ", cum_ret
+    daily_rets = get_daily_returns(port_val)
+ 
+    avg_daily_ret = daily_rets.mean()
+    print "Average Daily Returns: ",avg_daily_ret
+    std_daily_ret = daily_rets.std()
+    print "Average Daily Returns Std: ", std_daily_ret
+    print "Sharp Ratio: ",sharp_ratio(daily_rets)
     
-   # print "data"
-   # print daily
-   # print "_________"
-    p_daily = daily * weight
-       
-    p_daily["sum"] = p_daily.sum(axis = 1)    
-    
-    #print p_daily
-    return p_daily 
-
-
+    return 
 def test_run():
-    weight =[0.0,0.5,0.3]
+    start_value = 100000
+    weight =[1.2,0.5,0.3]
+    if sum(weight)> 1:
+        print "Weight sums bigger than 1. Please check."
+        return
     symbols = ["IBM","GOOG","AAPL"]
     start_date ='2015-01-01'
     end_date ='2015-12-31'
     dates = pd.date_range(start_date, end_date)
     data = get_data(symbols, dates)
     #print data
-    data = normalized_prices(data)
     #print data.iloc[0]
     #daily = get_daily_returns(data)
     #print "symbols ",symbols
     #print data[symbols]
     #print "end symbols"
-    p_daily = portfolio_returns(data[["IBM","GOOG","AAPL"]],weight)
     #print p_daily
-    print sharp_ratio(p_daily["sum"])
-    data.plot(title = 'Normalized Price',figsize=(15,5))
+    d_port = daily_portfolio_value(data[["IBM","AAPL","GOOG"]],weight,start_value)
+    statistics(d_port)
+    d_port.plot(title = 'Daily Portfolio Value',figsize=(15,5),label ="Portfolio Value")
     plt.legend(loc ='upper left')
     plt.show()
 if __name__ == '__main__':
